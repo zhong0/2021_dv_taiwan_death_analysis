@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Final-Group1</title>
+
+  <!-- d3.js -->
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://d3js.org/topojson.v2.min.js"></script>
+
+  <!-- Custom Files -->
+  <link rel="stylesheet" href="utils/style.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Encode+Sans:wght@100;400;700&display=swap" rel="stylesheet">
+</head>
+<body id = "top_">
+  <svg style = "width: 100vw;height: 75vh;"></svg>
+
+  <div id="title">
+    <h2 style="text-align: left; color: #FCFAF2;">台灣疾病歷年死亡分布統計</h2>
+  </div>
+
+  <div id="top-right">
+    <a href="#designTable">
+      <img src="utils/info.png" style="weight:25px; height:30px; float:left; padding-top:1.3vh; padding-left:0.8vw;">
+    </a>
+      <div id="tooltip" style="width:400px; border-radius: 15px 15px 0px 0px;background:#6f6866;">
+          <div id="diseaseName" class="h2" style="text-align: center; color: #FFFFFF; font-size:18px;">腦血管疾病 歷年死亡率</div>
+      </div>
+      <div id="tooltip" style="width:400px; height:200px; margin-top: 0; border-radius: 0px 0px 15px 15px; background:#dad2bc;">
+          <div id="region" class="h3" style="text-align: center; color:#787878; margin-bottom:0;">臺北市</div>
+          <div id="my_dataviz" style="text-align:center"></div>
+      </div>
+
+    <a href="#dataDescription">
+      <img src="utils/info.png" style="weight:25px; height:30px; float:left; padding-top:1.3vh; padding-left:0.8vw;">
+    </a>
+
+    <div id="tooltip" style="width:400px; border-radius: 15px 15px 0px 0px;background:#6f6866;">
+          <div id="enviroment" class="h2" style="text-align: center; color: #FFFFFF; font-size:18px;">各項因子分析</div>
+    </div>
+    <div id="tooltip" style="width:400px; height:250px; margin-top: 0; border-radius: 0px 0px 15px 15px; background:#dad2bc;">
+        <div id="yearStr" class="h3" style="text-align: center; color:#787878; margin-bottom:5px;">民國103年</div>
+        <form>
+              <label class = "radioLabel">
+                  <input type="radio" name="env" value = "0" checked>
+                  <span>水汙染</span>
+              </label>
+              <label  class = "radioLabel">
+                  <input type="radio" name="env" value = "1">
+                  <span>空氣汙染</span>
+              </label>
+              <label class = "radioLabel">
+                  <input type="radio" name="env" value = "2">
+                  <span>原住民分布</span>
+              </label>
+              <label class = "radioLabel">
+                  <input type="radio" name="env" value = "3">
+                  <span>吸菸人口分布</span>
+              </label>
+          </form>
+          <div id="environmentChart" style="text-align:center; margin:10px 5px 20px 10px">
+          </div>
+    </div>
+
+  <table style = "width: 100%; margin-top:4px" valign = "top">
+    <tr>
+      <td valign="top">
+          <div id="tooltip" style="width:185px; border-radius: 15px 15px 0px 0px; background:#38302e; padding: 10px;margin-right:5px">
+              <div class="h2" style="text-align: center; color: #FFFFFF; font-size:16px;">環境因子</div>
+          </div>
+          <div id="tooltip" style="width:195px; margin-top: 0; border-radius: 0px 0px 15px 15px; background:#6f6866; padding:5px;margin-right:3px">
+              <table style="width:100%">
+                  <tr>
+                      <td style="padding-bottom:10px;">
+                          <div class="h2" style="color: #FFFFFF; font-size:16px; text-align:center;">　　　水汙染</div>
+                      </td>
+                      <td style="padding-bottom:10px;">
+                          <label class="switch_btn">
+                              <input type="checkbox" id="water">
+                              <span class="slider round"></span>
+                          </label>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>
+                          <div class="h2" style="color: #FFFFFF; font-size:16px; text-align:center;">　　空氣汙染</div>
+                      </td>
+                      <td style="padding-bottom:10px;">
+                          <label class="switch_btn">
+                              <input id = "air" type="checkbox">
+                              <span class="slider round"></span>
+                          </label>
+                      </td>
+                  </tr>
+
+              </table>
+          </div>
+      </td>
+      <td valign="top">
+          <div id="tooltip" style="width:185px; border-radius: 15px 15px 0px 0px; background:#38302e; padding: 10px;">
+              <div class="h2" style="text-align: center; color: #FFFFFF; font-size:16px;">人文因子</div>
+          </div>
+          <div id="tooltip" style="width:195px; margin-top: 0; border-radius: 0px 0px 15px 15px; background:#6f6866 ;padding: 5px;">
+              <table style="width:100%">
+                  <tr>
+                      <td style="padding-bottom:10px;">
+                          <div class="h2" style="color: #FFFFFF; font-size:16px; text-align:center;">　原住民分布</div>
+                      </td>
+                      <td style="padding-bottom:10px;">
+                            <label class="switch_btn">
+                                <input id = "oriRace" type="checkbox">
+                                <span class="slider round"></span>
+                            </label>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>
+                          <div class="h2" style="color: #FFFFFF; font-size:16px; text-align:center;">吸煙人口分布</div>
+                      </td>
+                      <td style="padding-bottom:10px;">
+                          <label class="switch_btn">
+                              <input id = "smoke" type="checkbox">
+                              <span class="slider round"></span>
+                          </label>
+                      </td>
+                  </tr>
+              </table>
+          </div>
+        </td>
+      </tr>
+      </table>
+  </div>
+
+  <div id="mid-right">
+    <div id="legend" style="color:#38302e;">
+      <div id = "badgeTitle" class="h3" style="margin-bottom:3px;font-size:14px;">死亡率 Z-Score</div>
+      <div class="party-container">
+        <div class="legend-grid">
+          <span class="badge" style="background-color: #FEDFE1;"></span>
+          <span class="badge" style="background-color: #F4A7B9;"></span>
+          <span class="badge" style="background-color: #E87A90;"></span>
+          <span class="badge" style="background-color: #DB4D6D;"></span>
+          <span class="badge" style="background-color: #CB4042;"></span>
+          <span class="badge" style="background-color: #AB3B3A;"></span>
+          <br>
+          <span id="score0" class="badge legend-text" style="margin-left:25px;">-2</span>
+          <span id="score1" class="badge legend-text">-1</span>
+          <span id="score2" class="badge legend-text">0</span>
+          <span id="score3" class="badge legend-text">1</span>
+          <span id="score4" class="badge legend-text">2</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex-parent">
+  	<div class="input-flex-container">
+  		<div class="input" id ="bt99">
+  			<span data-year="民國99年"></span>
+  		</div>
+  		<div class="input" id ="bt100">
+  			<span data-year="民國100年"></span>
+  		</div>
+  		<div class="input" id ="bt101">
+  			<span data-year="民國101年"></span>
+  		</div>
+  		<div class="input" id ="bt102">
+  			<span data-year="民國102年"></span>
+  		</div>
+  		<div class="input active" id ="bt103">
+  			<span data-year="民國103年"></span>
+  		</div>
+  		<div class="input" id ="bt104">
+  			<span data-year="民國104年"></span>
+  		</div>
+  		<div class="input" id ="bt105">
+  			<span data-year="民國105年"></span>
+  		</div>
+  		<div class="input" id ="bt106">
+  			<span data-year="民國106年"></span>
+  		</div>
+  		<div class="input" id ="bt107">
+  			<span data-year="民國107年"></span>
+  		</div>
+  		<div class="input" id ="bt108">
+  			<span data-year="民國108年"></span>
+  		</div>
+  	</div>
+  </div>
+
+  <div id="bottom-left">
+    <div id="switch" style = "border-radius: 18px;">
+      <ul class="tab-controls_Map">
+        <li class="tab-controls__item_Map">
+          <a href="#" id="tab-county" class="tab-controls__link_Map active" data-index="98">縣市</a>
+          <a href="#" id="tab-district" class="tab-controls__link_Map" data-index="99">鄉鎮地區</a>
+        </li>
+      </ul>
+    </div>
+    <div id="switch" style = "border-radius: 18px;">
+      <ul class="tab-controls">
+        <li class="tab-controls__item" >
+          <a href="#" id="tab-case7" class="tab-controls__link active" data-index="0">腦血管疾病</a>
+          <a href="#" id="tab-case8" class="tab-controls__link" data-index="1">慢性下呼吸道疾病</a>
+          <a href="#" id="tab-case9" class="tab-controls__link" data-index="2">肺炎</a>
+          <a href="#" id="tab-case10" class="tab-controls__link" data-index="3">心臟疾病</a>
+          <a href="#" id="tab-case11" class="tab-controls__link" data-index="4">高血壓疾病</a>
+          <a href="#" id="tab-case12" class="tab-controls__link" data-index="5">糖尿病</a>
+          <a href="#" id="tab-case13" class="tab-controls__link" data-index="6">惡性腫瘤</a>
+        </li>
+      </ul>
+    </div>
+    <div style = "background-color: #D05A6E; color: #FFFFFF; border-radius: 18px;" id="switch">
+      <ul class="tab-controls_Num">
+        <li class="tab-controls__item_Num">
+          <a href="#" id="rateNum" class="tab-controls__link_Num active" data-index="25" style="border-radius: 15px 0 0 15px">相對比率</a></li>
+          <li class="tab-controls__item_Num">
+          <a href="#" id="realNum" class="tab-controls__link_Num" data-index="26" style="border-radius: 0 15px 15px 0">絕對人數</a>
+        </li>
+      </ul>
+    </div>
+    <div style = "background-color: #577C8A; color: #FFFFFF; border-radius: 18px;" id="switch">
+      <ul class="tab-controls_Anime">
+        <li class="tab-controls__item_Anime">
+          <a href="#" id="fixedDisplay" class="tab-controls__link_Anime active" data-index="50" style="border-radius: 15px 0 0 15px">單年數據</a></li>
+          <li class="tab-controls__item_Anime">
+          <a href="#" id="autoDisplay" class="tab-controls__link_Anime" data-index="51" style="border-radius: 0 15px 15px 0">逐年變化</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div id = "dataDescription">
+    <a href = "#top_">
+        <div id="topButton" style="margin-top:15%;">▲ 前往頂端</div>
+    </a>
+    <table style = "margin-top:4px;" valign = "top">
+      <tr>
+        <td valign="top">
+            <div id="analysisArea" style="background:#3A8FB7;margin-right:5px;">
+                <div class="h2" style="text-align: center; color: #FFFFFF; font-size:18px;">水汙染與疾病分析</div>
+            </div>
+            <div id="analysisText" style="color: #38302e;height:165px">
+                <p>
+                    根據行政院環境保護署定義，河川污染指數(RPI)是以溶氧量(DO)、生物需氧量(BOD5)、懸浮固體(SS)、氨氮(NH3-N)，
+                    這四項作為水質評估參數，RPI值越高，污染程度越高。水污染會透過飲用水或者灌溉時污然農地影響人體的健康，
+                    ex：砷會引起烏腳病、鉻會誘發各種癌症，自來水處理所加的氯經化學反應產生的副產物三鹵甲烷已被證實為致癌物。
+                </p>
+            </div>
+        </td>
+        <td valign="center">
+            <div id="analysisArea" style="background:#24936E">
+                <div class="h2" style="text-align: center; color: #FFFFFF; font-size:18px;">空氣汙染與疾病分析</div>
+            </div>
+            <div id="analysisText" style="color: #38302e;">
+              <p>
+                空氣品質指標(Air Quality Index, AQI)為依據監測資料將當日空氣中臭氧(O3)、細懸浮微粒(PM2.5)、懸浮微粒(PM10)、
+                一氧化碳(CO)、二氧化硫(SO2)及二氧化氮(NO2)濃度等數值，以其對人體健康的影響程度，分別換算出不同污染物之副指標值，
+                再以當日各副指標之最大值為該測站當日之空氣品質指標值(AQI)。AQI低於50為良好值，50~100為普通，
+                100以上則會對敏感族群有健康上的影響，150以上更是會對所有人造成健康的危害。空氣汙染物質的孔徑非常微小，
+                隨著呼吸進入肺部後，先是容易使肺部發炎，當體內這些發炎因子隨著血液運送到身體各處，便可能演變成血管、
+                全身系統性的發炎。因此除了肺部疾病外，長期暴露在空氣品質糟糕的環境下還會造成心血管、腦血管疾病等慢性疾病。
+              </p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top">
+              <div id="analysisArea" style="background:#D7B98E">
+                  <div class="h2" style="text-align: center; color: #FFFFFF; font-size:18px;">原住民之疾病分析</div>
+              </div>
+              <div id="analysisText">
+                <p>
+                  在人文因子方面，我們想要研究人們的生活型態，是否會與疾病之死亡傾向有所關聯。
+                  由生活型態作為切入點，查得研究資料顯示原住民平均死亡年齡較漢人少10歲，
+                  因此，將其納入人文因子的分析資料。而臺灣原住民族資訊資源網中的博碩士論文提及，
+                  在2001年中原住民族嚼食檳榔、吸菸、飲酒的比例皆至少高於漢人9%的比例，
+                  這類型的食品、用品被視為是心臟疾病、高血壓、肺炎等的高危險因子，
+                  由圖表得知，上述疾病於原住民人口分布密集區域，皆呈現較高的死亡比率，
+                  側面驗證了該生活型態的風險之處。
+                </p>
+              </div>
+          </td>
+          <td valign="top">
+              <div id="analysisArea" style="background:#ED784A">
+                  <div class="h2" style="text-align: center; color: #FFFFFF; font-size:18px;">吸菸人口之疾病分析</div>
+              </div>
+              <div id="analysisText">
+                <p>
+                  吸菸對於健康有所影響是眾所皆知，我們取得各縣市之吸菸人口比率，
+                  這份資料協助我們分析不同的吸菸人口結構，與各地區的健康狀況的關聯。
+                  吸菸對於高血壓是第二大的危險因子，由分層色設圖得知，吸菸人口散布在不同的區域，
+                  以民國106年為例，在台灣平均吸菸人口為14.62%，
+                  然而，全球於2017年因抽菸死亡的比率為13%，而因吸二手煙有2%，意即，全球共有15%的人因菸品而死亡。
+                  吸菸會增加肺部相關的疾病，例如肺癌、慢性呼吸道疾病，除此之外，其對心臟疾病、中風、口腔癌都有相當嚴重的影響。
+                </p>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <a href = "#designTable">
+            <div id="topButton" style="margin-top:5px">▼ 設計說明 </div>
+        </a>
+  </div>
+
+  <div id = "designDescript">
+    <a href = "#dataDescription">
+        <div id="topButton">▲ 環境分析</div>
+    </a>
+    <table id="designTable">
+      <tr>
+        <td>
+            <table valign = "top">
+              <tr>
+                <td valign="center">
+                    <div id="analysisArea" style="background:#6f6866;">
+                        <div class="h2" style="text-align: center; color: #FFFFFF; font-size:18px;">操作說明</div>
+                    </div>
+                    <div id="analysisText" style="color: #38302e; margin-top:0;">
+                        <h4 style="margin:0">1. 地圖操作</h4>
+                        <p>◆滑鼠移至色塊上，顯示該疾病於該地區的死亡人數、死亡率。<br>
+                          ◆滑鼠點擊色塊，連動折線圖，顯示該疾病於該地區的死亡趨勢。<br>
+                        </p>
+                        <h4>2. 資料更換</h4>
+                        <p>
+                          ◆滑鼠點選左側米色列表，可更換縣市或鄉鎮資料、各類疾病資料於地圖上。<br>
+                          ◆滑鼠點選紅色按鈕，色塊可更換由Z-Score或死亡人數繪製。
+                        </p>
+                        <h4> 3. 時間軸操作</h4>
+                        <p>
+                          ◆若選擇單年數據，點擊年份上的圓圈，將直接更換該年資料。<br>
+                          ◆若選擇逐年變化，點擊年份上的圓圈，將兩秒更換歷年資料至所點擊的年份。
+                        </p>
+                        <h4>4. 折線圖</h4>
+                        <p>◆滑鼠移至圓圈上，顯示該點之詳細數值內容。</p>
+                        <h4>5. 長條圖</h4>
+                        <p>◆選擇各項因子，將顯示數值前五大的資料內容。</p>
+                        <h4>6. 泡泡圖</h4>
+                        <p>
+                          ◆將右下咖啡色區塊的按鈕拉開，圓圈顯示於地圖上，表示該因子的影響程度。<br>
+                          ◆滑鼠移至地圖上的圓圈，會顯示該資料詳細內容。
+                        </p>
+                    </div>
+                </td>
+                </tr>
+                <tr>
+                  <td valign="top">
+                      <div id="analysisArea" style="background:#6f6866">
+                          <div class="h2" style="text-align: center; color: #FFFFFF; font-size:18px;">資料來源</div>
+                      </div>
+                      <div id="analysisText">
+                          <h4>疾病資料</h4>
+                          <a href="https://dep.mohw.gov.tw/dos/lp-1720-113-xCat-1-2-20.html">各疾病資料(衛生福利部)</a>
+                          <h4>環境資料</h4>
+                          <a href="https://wq.epa.gov.tw/EWQP/zh/ConService/DownLoad/AnnReport.aspx">水汙染(行政院環境保護署)</a>
+                          <br>
+                          <a href="https://www.epa.gov.tw/DisplayFile.aspx?FileID=6DF52F28D8A44EC3&fbclid=IwAR0mAQqU5cltkW3kkx19DzOjusRWrOImYkHpqpaLlcYf8LhLWp-Edyyvi0Y">空氣汙染(行政院環境保護署)</a>
+                          <h4>人文資料</h4>
+                          <a href="https://ws.moi.gov.tw/001/Upload/OldFile/site_stuff/321/2/year/year.html">原住民人口分布(內政部統計年報)</a>
+                          <br>
+                          <a href="https://dep.mohw.gov.tw/DOS/cp-1720-7369-113.html?fbclid=IwAR18JY6d7DreN3INishOMdYnPV9DKhLIDGsqA3XbuNvv0ruSODvwuMA6R-o">吸菸人口分布(衛生福利部)</a>
+                          <h4>經緯度資料</h4>
+                          <a href = "https://gist.github.com/PM25/2674f28945c36a394aa4d4c9e410485a">台灣TopoJson</a>
+                          <br>
+                          <a href="https://byronhu.wordpress.com/2013/09/09/%E5%8F%B0%E7%81%A3%E7%B8%A3%E5%B8%82%E7%B6%93%E7%B7%AF%E5%BA%A6/?fbclid=IwAR36VrN8QZEym3sRLlIa01hn1LygN1dnQX4qPC9fzoXDTqVI5J3fdcgi6Tc">縣市經緯度</a>
+                          <br>
+                          <a href=" https://tw.datagove.com/3%E7%A2%BC%E9%83%B5%E9%81%9E%E5%8D%80%E8%99%9F%E8%88%87%E8%A1%8C%E6%94%BF%E5%8D%80%E4%B8%AD%E5%BF%83%E9%BB%9E%E7%B6%93%E7%B7%AF%E5%BA%A6%E5%B0%8D%E7%85%A7%E8%A1%A8/3942522241">鄉鎮經緯度</a>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              <td>
+                <table valign = "top">
+                  <tr>
+                    <td valign="center">
+                          <div id="analysisArea" style="background:#6f6866">
+                              <div class="h2" style="text-align: center; color: #FFFFFF; font-size:18px;">設計選擇</div>
+                          </div>
+                          <div id="analysisText" style="color: #38302e;">
+                            <h4>1. 分層色設圖</h4>
+                            <p>◆色塊由淺到深表達該疾病於該地區的影響程度由低至高。<br>
+                                  ◆以時間軸變換歷年資料，了解其整體的歷年變化趨勢。
+                            </p>
+                            <h4>2. 折線圖</h4>
+                            <p>
+                                  ◆折線圖深色代表該疾病於該地區的歷年變化，淺色代表於全台的平均歷年變化。<br>
+                                  ◆根據所選之資料，變換縱軸線以死亡率或是死亡人數為單位。
+                            </p>
+                            <h4>3. 長條圖</h4>
+                            <p>
+                                  ◆利用長條圖列出各項因子數值前五大的地區。<br>
+                                  ◆根據時間軸的變換，顯示不同時間的資料。
+                            </p>
+                            <h4>4. 泡泡圖</h4>
+                            <p>
+                                  ◆根據不同顏色的圓圈表示不同的因子，藍色代表水汙染、綠色代表供氣汙染、米色代表原住民分布、橘色代表吸菸人口分布。<br>
+                                  ◆根據不同大小，表現數值的大小。
+                            </p>
+                          </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top">
+                            <div id="analysisArea" style="background:#6f6866">
+                                <div class="h2" style="text-align: center; color: #FFFFFF; font-size:18px;">設計考量過程</div>
+                            </div>
+                            <div id="analysisText">
+                              <h4>1. 色塊設計</h4>
+                              <p>◆設計相對比率的分色時，因各疾病的死亡率區間分布太廣，無法使用單一數值做為分色的依據，
+                                因此，計算各疾病於該年的死亡率Z-Score作為分界。<br>
+                                ◆設計絕對人數的分色時，也存在著上述問題，但由於講求絕對的概念，因此，計算出讓各疾病都能有明顯分色的數值作為分界。<br>
+                                ◆相對比率的呈現，可得出同年同疾病之地區間的比較結果。<br>
+                                ◆絕對比率的呈現，可得出各年不同疾病與地區間的比較結果，並得知真實的情況。
+                              </p>
+                              <h4>2. 折線圖基準線</h4>
+                              <p>
+                                ◆分層色設圖的變化只便於觀察全局的狀態，因此，設計折線圖查看單一地區變化。<br>
+                                ◆以全台平均作為基準線，易於觀察該疾病於該地區的狀態。
+                              </p>
+                              <h4>3. 長條圖呈現前五筆資料</h4>
+                              <p>
+                                ◆由於泡泡圖有時難以比較圓圈大小，且會擋住色塊，因此，設計顯示前五大數值資料，以便觀察各項因子是否與疾病有所關聯。
+                              </p>
+                              <h4>4. 泡泡疊圖</h4>
+                              <p>
+                                ◆泡泡圖可以開啟多重的選項疊至地圖上，可以找出多重因子與疾病的關聯。
+                              </p>
+                            </div>
+                          </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+              <a href = "#top_">
+                  <div id="topButton" style="margin-bottom:5px;margin-top:3px;">▲ 前往頂端 </div>
+              </a>
+
+  </div>
+
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+  <script src="utils/index.js"></script>
+</body>
+</html>
