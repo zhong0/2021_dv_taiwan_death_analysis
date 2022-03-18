@@ -23,7 +23,7 @@ Technique
 
 Environment
 ----
-We didn't set public to this project. Therefore, we accessed to the localhost via Xampp. Then, we made Apache server enable. After moving all the files to the path /xampp/htdoc, the project can be implemented on your own pc.
+  >We didn't set public to this project. Therefore, we accessed to the localhost via Xampp. Then, we made Apache server enable. After moving all the files to the path /xampp/htdoc, the project can be implemented on your own pc.
 
 Reference
 ----
@@ -32,6 +32,6 @@ Reference
 
 Supplement
 ----
-If you wonder the pratical operation in details, you can watch demo video via above link.
+  >If you wonder the pratical operation in details, you can watch demo video via above link.
 
 
