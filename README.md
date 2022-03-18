@@ -1,4 +1,4 @@
-# The Analysis for Historical Disease of Death in Taiwan
+# The Analysis for the Diseases of Death in Taiwan over the Years
 
 Demo video: https://youtu.be/MoAlIrJp-SA
 
