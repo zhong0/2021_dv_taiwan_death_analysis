@@ -5,7 +5,7 @@ Demo video: https://youtu.be/MoAlIrJp-SA
 Introduction
 ----
 * ### Diseases of Death
-  >The project is aim to analyze the relationship between top diseases of death and environmental factors. We display the scale of death ratio or numbers of people on the map with the color intensity. In addition to understand the region distribution of each disease, we can also realize the changes in each year. Also, we pay attention to each region circumstances, which is concluded the changes over the years with line chart.
+  >The project is aim to analyze the relationship between top diseases of death and environmental factors in Taiwan. We display the scale of death ratio or numbers of people on the map with the color intensity. In addition to understand the region distribution of each disease, we can also realize the changes in each year. Also, we pay attention to each region circumstances, which is concluded the changes over the years with line chart.
 
 * ### Environmental Factors
   >We divide the environmental factors to two parts. One is the environmental pollution, and the other is social humanities. We displayed the influence of each factor with bubble chart on the map. The size of bubble represents different degree with the factor. For example, the air pollution factor is scaled by AQI and the smoking people factor is scaled by ratio of people. The position of bubbles is on the monitoring station location for pollution factors and is on the center of region for social humanities factors. Last but not least, we showed the places with top five scale score for each factor via bar chart to conclude the changes of the environment. Overall, we may analyze diverse aspects of the relation to the environmental factors and diseases with the visualization result.
