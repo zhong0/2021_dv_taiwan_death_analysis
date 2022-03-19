@@ -19,7 +19,7 @@ Technique
   > The animation and interaction with the user are mainly applied the svg library based on D3 js. The method geoPath(), projection(), and etc., are contributed to map operation. The regional disease data is dotted on the line chart. The environmental data converts to circle form to draw the bubble chart, and is concluded with bar chart. All the chart is drawn with svg library. To modify the attributes of the object, attr() method is used. To make it animated, transition() is applied.
  
 * ### User Interface
-  >The layout is arranged by html. The attributes are designed by css.
+  >The layout is arranged by HTML. The attributes are designed by CSS.
 
 Environment
 ----
