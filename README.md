@@ -32,5 +32,5 @@ Reference
 
 Supplement
 ----
-* ### document
+* ### ocument
   >The document file contains the presentation ppt for final project of data visualization course. It is written in Chinese. If you want to understand our systems work in details, you can watch the demo video via above link.
